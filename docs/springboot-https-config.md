@@ -133,3 +133,6 @@ curl -k --cert-type P12 --cert ./client.p12:'ClientKeyStore@2024' --location --r
 ```
 
 使用postman的时候，需要将 Settings->General->REQUEST->SSL certificate verification 开关关掉，即不校验SSL服务端证书。
+
+## [源代码地址github](https://github.com/YoungBear/SpringBoot2Demo/tree/develop)
+## [源代码地址gitee](https://gitee.com/YoungBear2023/SpringBoot2Demo/tree/develop/)
