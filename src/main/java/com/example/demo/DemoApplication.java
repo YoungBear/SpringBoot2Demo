@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Security;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,10 @@ import java.util.Map;
 public class DemoApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DemoApplication.class);
+
+    static {
+        Security.addProvider(new BouncyCastleProvider());
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);

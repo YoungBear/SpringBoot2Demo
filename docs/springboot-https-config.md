@@ -97,6 +97,8 @@ keytool -list -v -keystore client.p12 -storepass 'ClientKeyStore@2024'
 
 将前边生成的证书 server.p12,truststore.jks,rootca.p12文件，拷贝到 src/main/resources/cert/ 目录下。并修改 application.yml，内容如下：
 
+使用rootca.p12
+
 ```yaml
 server:
   ssl:
@@ -104,12 +106,36 @@ server:
     key-store: classpath:cert/server.p12
     key-store-password: 'ServerKeyStore@2024'
     key-store-type: PKCS12
-    key-store-provider: SUN
+    key-store-provider: BC
     enabled-protocols: TLSv1.2,TLSv1.3
-    trust-store: classpath:cert/truststore.jks
-#    trust-store: classpath:cert/rootca.p12
+    trust-store: classpath:cert/rootca.p12
     trust-store-password: 'TrustStore@2024'
     trust-store-type: PKCS12
+    trust-store-provider: BC
+    client-auth: need
+  servlet:
+    context-path: /SpringBoot2Demo
+  port: 8888
+
+logging:
+  level:
+    root: info
+```
+
+使用 truststore.jks
+
+```yaml
+server:
+  ssl:
+    enabled: true
+    key-store: classpath:cert/server.p12
+    key-store-password: 'ServerKeyStore@2024'
+    key-store-type: PKCS12
+    key-store-provider: BC
+    enabled-protocols: TLSv1.2,TLSv1.3
+    trust-store: classpath:cert/truststore.jks
+    trust-store-password: 'TrustStore@2024'
+    trust-store-type: JKS
     trust-store-provider: SUN
     client-auth: need
   servlet:
@@ -119,6 +145,26 @@ server:
 logging:
   level:
     root: info
+```
+
+由于要使用到 BouncyCastleProvider，需要添加相关依赖和配置：
+
+pom.xml
+
+```xml
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.78.1</version>
+        </dependency>
+```
+
+启动类：
+
+```java
+    static {
+        Security.addProvider(new BouncyCastleProvider());
+    }
 ```
 
 

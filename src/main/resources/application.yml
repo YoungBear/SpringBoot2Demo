@@ -4,12 +4,11 @@ server:
     key-store: classpath:cert/server.p12
     key-store-password: 'ServerKeyStore@2024'
     key-store-type: PKCS12
-    key-store-provider: SUN
+    key-store-provider: BC
     enabled-protocols: TLSv1.2,TLSv1.3
     trust-store: classpath:cert/truststore.jks
-#    trust-store: classpath:cert/rootca.p12
     trust-store-password: 'TrustStore@2024'
-    trust-store-type: PKCS12
+    trust-store-type: JKS
     trust-store-provider: SUN
     client-auth: need
   servlet:
