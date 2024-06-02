@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.infrastructure.aop.AccessLog;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
     }
 
+    @AccessLog("访问日志current")
     @GetMapping(value = "/demo/current", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> current() {
         ZonedDateTime now = ZonedDateTime.now();
