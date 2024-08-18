@@ -57,6 +57,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>SpringBoot2Demo</finalName>
     </build>
 
 </project>
