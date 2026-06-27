@@ -11,7 +11,7 @@
 - 该文章使用自签名证书，仅作为开发验证使用，实际现网场景请从CA机构申请证书。
 - 文章中的命令均在linux环境下执行。
 - openssl版本为 OpenSSL 1.1.1k  FIPS 25 Mar 2021。
-- keytool对应jre版本为 1.8.0_401。
+- keytool对应jre版本为 1.8.0_401（证书生成环境，运行时JDK 21完全兼容）。
 
 ## 1. 创建CA证书
 
@@ -155,7 +155,7 @@ pom.xml
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk18on</artifactId>
-            <version>1.78.1</version>
+            <version>1.84</version>
         </dependency>
 ```
 
