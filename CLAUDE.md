@@ -1,47 +1,47 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+本文件为 Claude Code (claude.ai/code) 在此仓库中工作时提供指导。
 
-## Build & Run
+## 构建与运行
 
 ```bash
-# Build and run tests
+# 构建并运行测试
 ./mvnw clean verify
 
-# Run without tests
+# 跳过测试进行打包
 ./mvnw clean package -DskipTests
 
-# Run only tests
+# 仅运行测试
 ./mvnw test
 
-# Run a single test class
+# 运行单个测试类
 ./mvnw test -Dtest=DemoApplicationTests
 
-# Run the application (HTTPS on port 8888, context path /SpringBoot2Demo)
+# 运行应用（HTTPS 端口 8888，上下文路径 /SpringBoot2Demo）
 ./mvnw spring-boot:run
 ```
 
-## Architecture
+## 架构
 
-This is a **Spring Boot 3.5.14 + JDK 21** demo project showcasing **mutual TLS (mTLS)** with self-signed certificates.
+这是一个基于 **Spring Boot 3.5.14 + JDK 21** 的演示项目，展示使用自签名证书配置 **双向 TLS (mTLS)**。
 
-**Single-module Maven project** with two Java classes:
-- `DemoApplication.java` — Main class + `@RestController`. Registers BouncyCastle security provider in a static block (required for PKCS12 keystore with BC provider), starts Spring Boot, and exposes `GET /demo/current` which returns current time as JSON.
-- `DemoApplicationTests.java` — Context load test.
+**单模块 Maven 项目**，包含两个 Java 类：
+- `DemoApplication.java` — 主类 + `@RestController`。在 static 块中注册 BouncyCastle 安全提供程序（PKCS12 密钥库使用 BC 提供程序所必需），启动 Spring Boot，并暴露 `GET /demo/current` 接口，以 JSON 格式返回当前时间。
+- `DemoApplicationTests.java` — 上下文加载测试。
 
-**HTTPS/mTLS configuration** (`src/main/resources/application.yml`):
-- Server listens on port 8888 with `/SpringBoot2Demo` context path
-- Requires client certificate authentication (`client-auth: need`)
-- Server keystore: `cert/server.p12` (PKCS12, BC provider)
-- Trust store: `cert/truststore.jks` (JKS, SUN provider)
-- TLS 1.2 and 1.3 enabled
+**HTTPS/mTLS 配置**（`src/main/resources/application.yml`）：
+- 服务监听端口 8888，上下文路径 `/SpringBoot2Demo`
+- 要求客户端证书认证（`client-auth: need`）
+- 服务端密钥库: `cert/server.p12`（PKCS12，BC 提供程序）
+- 信任库: `cert/truststore.jks`（JKS，SUN 提供程序）
+- 启用 TLS 1.2 和 1.3
 
-**Dependencies**: spring-boot-starter-web, spring-boot-starter-test, bcprov-jdk18on (Bouncy Castle).
+**依赖**: spring-boot-starter-web、spring-boot-starter-test、bcprov-jdk18on（Bouncy Castle）。
 
-**Certificates** are pre-generated self-signed certs stored in `src/main/resources/cert/`. The `files/http_cert_2024/` directory contains the original certificate generation source files and the `docs/` directory has the full step-by-step guide for regenerating them.
+**证书**为预生成的自签名证书，存放于 `src/main/resources/cert/`。`files/http_cert_2024/` 目录包含原始证书生成源文件，`docs/` 目录包含重新生成证书的完整分步指南。
 
-## Important: Untracked Files
+## 重要：未跟踪文件
 
-The `files/` and `docs/` directories are **not tracked in git** (present locally but gitignored or never committed). They contain:
-- `docs/springboot-https-config.md` — Full guide for generating self-signed CA, server, and client certificates
-- `files/http_cert_2024/` — Original certificate files (keys, CSRs, CRTs, P12, JKS)
+`files/` 和 `docs/` 目录**未被 git 跟踪**（本地存在但被 gitignore 或从未提交）。它们包含：
+- `docs/springboot-https-config.md` — 自签名 CA、服务端及客户端证书生成的完整指南
+- `files/http_cert_2024/` — 原始证书文件（密钥、CSR、CRT、P12、JKS）
